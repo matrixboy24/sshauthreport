@@ -2,6 +2,7 @@
 ## The project
 
 The aim of sshauthreport is to notify you when soemone login to your ssh accounts on your server.
+There are multiples ways to be notified. Telegram message from a bot, send a request to an url (to use carrier SMS api for example)...
 
 ## Installation
 In dev...
