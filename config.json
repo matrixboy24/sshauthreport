@@ -3,12 +3,21 @@
   "telegram": {
     "useYourOwnBot":"false",
     "yourBotApiKey":"",
-    "message":"Soemone just login to %username% on %servername% with this ip address: %ip% !",
+    "yourTelegramId":"",
+    "message":"Someone just login to %username% on %servername% with this ip address: %ip% !",
   },
   "urls":[
     {
       "url":"http://exempleurl.com/sendmsg?msg=%message%",
-      "%message%":"Soemone just login to %username% on %servername% with this ip address: %ip% !"
+      "%message%":"Someone just login to %username% on %servername% with this ip address: %ip% !"
+    }
+  ],
+  "users":[
+    {
+      "name":"root"
+    },
+    {
+      "name":"admin"
     }
   ]
 }
