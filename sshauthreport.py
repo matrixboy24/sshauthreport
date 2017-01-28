@@ -63,4 +63,4 @@ def checkTheLogs():
 
 while 1:
     checkTheLogs()
-    time.sleep(10)#important to set a timer of 10 seconds here to prevent problem with the rsyslog service who write the auth log file
+    time.sleep(1)
