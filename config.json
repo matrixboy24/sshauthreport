@@ -1,16 +1,14 @@
 {
-  "%servername%":"myserver",
   "authlogPath":"/var/log/auth.log",
+  "message":"Someone just login to %username% on %servername% with this ip address: %ip% !",
   "telegram": {
     "useYourOwnBot":"false",
     "yourBotApiKey":"",
-    "yourTelegramId":"",
-    "message":"Someone just login to %username% on %servername% with this ip address: %ip% !"
+    "yourTelegramId":""
   },
   "urls":[
     {
-      "url":"http://exempleurl.com/sendmsg?msg=%message%",
-      "%message%":"Someone just login to %username% on %servername% with this ip address: %ip% !"
+      "url":"http://exempleurl.com/sendmsg?msg=%message%"
     }
   ],
   "users":[
