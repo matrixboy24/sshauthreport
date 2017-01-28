@@ -31,6 +31,7 @@ def checkTheLogs():
         logsLines = logFile.readlines()
         logFile.close() #close the file after reading
         for line in logsLines:
+            print(line)
             # example line sshd[session_id]: Accepted password for username from 77.15... port 56.. ssh2
             authSearchRegex = re.search("sshd\[(?P<session_id>\w+)\]: Accepted password for (?P<username>\w+) from (?P<from_ip>\w+) port (?P<from_port>\w+)",line)
             if authSearchRegex is not None:
