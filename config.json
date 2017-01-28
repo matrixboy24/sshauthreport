@@ -5,7 +5,7 @@
     "useYourOwnBot":"false",
     "yourBotApiKey":"",
     "yourTelegramId":"",
-    "message":"Someone just login to %username% on %servername% with this ip address: %ip% !",
+    "message":"Someone just login to %username% on %servername% with this ip address: %ip% !"
   },
   "urls":[
     {
