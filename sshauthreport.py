@@ -21,28 +21,22 @@ if config_json["telegram"]["useYourOwnBot"] == True:
     useTelegramBot = True
 
 def checkTheLogs():
-    sshLogin = False
-
     #here check the logs to find an ssh connexion
     if os.path.exists(authlogPath): #if the log file exist
         logFile = open(authlogPath, 'r') #open it (in read only mode)
         #read the file, search for connexions
-        # Make sure we're at the start of the file
-        logFile.seek(0)
+        logFile.seek(0) #make sure we are at the start of the file
         logsLines = logFile.readlines()
         logFile.close() #close the file after reading
-        for line in logsLines:
-            print(line)
-            # example line sshd[session_id]: Accepted password for username from 77.15... port 56.. ssh2
-            #looking for line who specify an ssh sucessful connexion
+        for line in logsLines:#for each line of the file
             authSearchRegex = re.search(r"^(?P<mounth>\w{3}) (?P<day>\d{2}) (?P<hour>\d{2}:\d{2}:\d{2}) (?P<serverprefix>.*) sshd\[(?P<session_id>\d+)\]: Accepted password for (?P<username>.*) from (?P<from_ip>.*) port (?P<from_port>\d+)",line)
-            if authSearchRegex is not None:
+            if authSearchRegex is not None: #if the line we reading specify an ssh sucessful connexion
                 serverprefix = authSearchRegex.group("serverprefix")
                 session_id = authSearchRegex.group("session_id")
                 username = authSearchRegex.group("username")
                 from_ip = authSearchRegex.group("from_ip")
                 from_port = authSearchRegex.group("from_port")
-                if session_id in alreadyAlertedConnexion == False:#If the alert for this session was not already sended then
+                if session_id in alreadyAlertedConnexion == False:#and if the alert for this session was not already sended then
                     message = config_json["telegram"]["message"] #import the raw message from the config file
                     message.replace("%ip%",from_ip) #loads vars in the message
                     message.replace("%user%",username)
@@ -55,8 +49,6 @@ def checkTheLogs():
                         message = urlObj["%message%"]
                         url.replace("%message%",message) #put the message in the url
                         urllib2.urlopen(url.encode('utf-8')) #then visit the url
-
-    return False
 
 while 1:
     checkTheLogs()
