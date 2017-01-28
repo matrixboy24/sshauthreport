@@ -2,11 +2,14 @@
 # coding: utf-8
 
 #Importing default needed modules
+import calendar
+import datetime
 import json
 import os
 import os.path
 import re
 import time
+import urllib2
 #Loading configuration...
 
 config_file = open('config.json') #Opening the config file
@@ -36,8 +39,12 @@ def checkTheLogs():
                 username = authSearchRegex.group("username")
                 from_ip = authSearchRegex.group("from_ip")
                 from_port = authSearchRegex.group("from_port")
-                if session_id in alreadyAlertedConnexion == False:#and if the alert for this session was not already sended then
-                    message = config_json["telegram"]["message"] #import the raw message from the config file
+                hour = authSearchRegex.group("hour")
+                if session_id in alreadyAlertedConnexion:
+                    break
+                else:#and if the alert for this session was not already sended then
+                    alreadyAlertedConnexion.append(session_id) #we add this session id to the list of already alerted connexion
+                    message = config_json["message"] #import the raw message from the config file
                     message.replace("%ip%",from_ip) #loads vars in the message
                     message.replace("%user%",username)
                     message.replace("%servername%",serverprefix)
@@ -46,8 +53,7 @@ def checkTheLogs():
                         bot.sendMessage(config_json["telegram"]["yourTelegramId"], message) #Send the message to the Telegram user refered in the config file
                     for urlObj in config_json["urls"]: #For each url refered in the config file
                         url = urlObj["url"]
-                        message = urlObj["%message%"]
-                        url.replace("%message%",message) #put the message in the url
+                        url = re.sub(r"%message%", message, url) #put the message in the url
                         urllib2.urlopen(url.encode('utf-8')) #then visit the url
 
 while 1:
