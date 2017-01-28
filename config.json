@@ -1,5 +1,6 @@
 {
   "%servername%":"myserver",
+  "authlogPath":"/var/log/auth.log",
   "telegram": {
     "useYourOwnBot":"false",
     "yourBotApiKey":"",
