@@ -45,9 +45,10 @@ def checkTheLogs():
                 else:#and if the alert for this session was not already sended then
                     alreadyAlertedConnexion.append(session_id) #we add this session id to the list of already alerted connexion
                     message = config_json["message"] #import the raw message from the config file
-                    message.replace("%ip%",from_ip) #loads vars in the message
-                    message.replace("%user%",username)
-                    message.replace("%servername%",serverprefix)
+                    #loads vars in the message
+                    message = re.sub(r"%ip%", from_ip, message)
+                    message = re.sub(r"%user%", username, message)
+                    message = re.sub(r"%servername%", serverprefix, message)
                     print("New ssh connexion on " + str(serverprefix) + " id: " + str(session_id) + " user: " + str(username) + " from: " + str(from_ip) + ":" + str(from_port))
                     if useTelegramBot == True:
                         bot.sendMessage(config_json["telegram"]["yourTelegramId"], message) #Send the message to the Telegram user refered in the config file
