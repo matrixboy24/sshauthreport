@@ -8,6 +8,7 @@ import json
 import os
 import os.path
 import re
+import shutil
 import time
 import urllib2
 #Loading configuration...
@@ -26,11 +27,14 @@ if config_json["telegram"]["useYourOwnBot"] == True:
 def checkTheLogs():
     #here check the logs to find an ssh connexion
     if os.path.exists(authlogPath): #if the log file exist
-        logFile = open(authlogPath, 'r') #open it (in read only mode)
+        #make a copy of the log file to open it without conflict with the rsyslog servico
+        shutil.copy2(authlogPath, "auth.log.temp")
+        logFile = open("auth.log.temp", 'r') #open the copy of the file (in read only mode)
         #read the file, search for connexions
         logFile.seek(0) #make sure we are at the start of the file
         logsLines = logFile.readlines()
         logFile.close() #close the file after reading
+        os.remove("auth.log.temp") #delete the copy of the file
         for line in logsLines:#for each line of the file
             authSearchRegex = re.search(r"^(?P<mounth>\w{3}) (?P<day>\d{2}) (?P<hour>\d{2}:\d{2}:\d{2}) (?P<serverprefix>.*) sshd\[(?P<session_id>\d+)\]: Accepted password for (?P<username>.*) from (?P<from_ip>.*) port (?P<from_port>\d+)",line)
             if authSearchRegex is not None: #if the line we reading specify an ssh sucessful connexion
@@ -59,4 +63,4 @@ def checkTheLogs():
 
 while 1:
     checkTheLogs()
-    time.sleep(1)
+    time.sleep(10)#important to set a timer of 10 seconds here to prevent problem with the rsyslog service who write the auth log file
